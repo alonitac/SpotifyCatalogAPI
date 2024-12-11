@@ -7,6 +7,10 @@ public class SpotifyUtils {
     private static final Pattern SPOTIFY_URI_PATTERN = Pattern.compile(
             "^spotify:(track|album|artist|playlist):[0-9a-zA-Z]{15,30}$"
     );
+    private static final Pattern SPOTIFY_ID_PATTERN = Pattern.compile(
+            "^[0-9a-zA-Z]{15,30}$"
+    );
+
 
     /**
      * Validates if the given URI is a valid Spotify URI.
@@ -31,7 +35,11 @@ public class SpotifyUtils {
      * @return true if the string is a valid Spotify ID, false otherwise.
      */
     public static boolean isValidId(String id) {
-        return true;
+
+        if (id == null || id.isEmpty()) {
+            return false;
+        }
+        return SPOTIFY_ID_PATTERN.matcher(id).matches();
     }
 
     /**
