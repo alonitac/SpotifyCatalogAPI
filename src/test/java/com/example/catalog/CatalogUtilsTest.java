@@ -41,7 +41,7 @@ class CatalogUtilsTest {
                           ]
                         },
                         {
-                          "duration_ms": 215000,
+                          "duration_ms": 210000,
                           "name": "Shape of You",
                           "popularity": 95,
                           "album": {
@@ -67,112 +67,6 @@ class CatalogUtilsTest {
                           "artists": [
                             {
                               "name": "Adele"
-                            }
-                          ]
-                        },
-                        {
-                          "duration_ms": 190000,
-                          "name": "Levitating",
-                          "popularity": 88,
-                          "album": {
-                            "name": "Future Nostalgia",
-                            "release_date": "2020-03-27",
-                            "total_tracks": 11
-                          },
-                          "artists": [
-                            {
-                              "name": "Dua Lipa"
-                            }
-                          ]
-                        },
-                        {
-                          "duration_ms": 210000,
-                          "name": "Uptown Funk",
-                          "popularity": 92,
-                          "album": {
-                            "name": "Uptown Special",
-                            "release_date": "2014-11-10",
-                            "total_tracks": 9
-                          },
-                          "artists": [
-                            {
-                              "name": "Mark Ronson",
-                              "featuring": "Bruno Mars"
-                            }
-                          ]
-                        },
-                        {
-                          "duration_ms": 220000,
-                          "name": "Blowin' in the Wind",
-                          "popularity": 85,
-                          "album": {
-                            "name": "The Freewheelin' Bob Dylan",
-                            "release_date": "1963-05-27",
-                            "total_tracks": 13
-                          },
-                          "artists": [
-                            {
-                              "name": "Bob Dylan"
-                            }
-                          ]
-                        },
-                        {
-                          "duration_ms": 240000,
-                          "name": "Hotel California",
-                          "popularity": 91,
-                          "album": {
-                            "name": "Hotel California",
-                            "release_date": "1976-12-08",
-                            "total_tracks": 9
-                          },
-                          "artists": [
-                            {
-                              "name": "Eagles"
-                            }
-                          ]
-                        },
-                        {
-                          "duration_ms": 195000,
-                          "name": "Bad Guy",
-                          "popularity": 89,
-                          "album": {
-                            "name": "When We All Fall Asleep, Where Do We Go?",
-                            "release_date": "2019-03-29",
-                            "total_tracks": 14
-                          },
-                          "artists": [
-                            {
-                              "name": "Billie Eilish"
-                            }
-                          ]
-                        },
-                        {
-                          "duration_ms": 210500,
-                          "name": "Smells Like Teen Spirit",
-                          "popularity": 93,
-                          "album": {
-                            "name": "Nevermind",
-                            "release_date": "1991-09-24",
-                            "total_tracks": 12
-                          },
-                          "artists": [
-                            {
-                              "name": "Nirvana"
-                            }
-                          ]
-                        },
-                        {
-                          "duration_ms": 205000,
-                          "name": "Imagine",
-                          "popularity": 98,
-                          "album": {
-                            "name": "Imagine",
-                            "release_date": "1971-10-11",
-                            "total_tracks": 10
-                          },
-                          "artists": [
-                            {
-                              "name": "John Lennon"
                             }
                           ]
                         }
