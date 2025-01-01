@@ -68,6 +68,7 @@ public class RateLimit implements HandlerInterceptor {
         while (!timestamps.isEmpty() && currTime - timestamps.getFirst() > timeWindow) {
             timestamps.removeFirst();
         }
+
         timestamps.addLast(currTime);
         if (timestamps.size() <= maxRequests) {
             return true;
@@ -169,7 +170,7 @@ public class RateLimit implements HandlerInterceptor {
 
     private long getRetryAfterSliding(String clientIp) {
         long currTime = System.currentTimeMillis();
-        long timeWindow = 1000;
+        long timeWindow = 60000;
         int maxRequests = Integer.parseInt(rateLimitRPM);
 
         if (!requestMap.containsKey(clientIp)) {
@@ -178,13 +179,9 @@ public class RateLimit implements HandlerInterceptor {
 
         LinkedList<Long> timestamps = (LinkedList<Long>) requestMap.get(clientIp);
 
-        while (!timestamps.isEmpty() && currTime - timestamps.getFirst() > timeWindow) {
-            timestamps.removeFirst();
-        }
-
         if (timestamps.size() >= maxRequests) {
             long timeLeftInWindow = timeWindow - (currTime - timestamps.getFirst());
-            return Math.max(0, timeLeftInWindow / 1000); // Convert to seconds
+            return Math.max(0, timeLeftInWindow / 60000); // Convert to seconds
         }
 
         return 0;
