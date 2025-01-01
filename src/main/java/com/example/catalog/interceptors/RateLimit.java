@@ -30,7 +30,6 @@ public class RateLimit implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String clientIp = request.getRemoteAddr();
         String requestURI = request.getRequestURI();
-
         if (requestURI.equals("/internal")) {
             return true;
         }
@@ -40,12 +39,10 @@ public class RateLimit implements HandlerInterceptor {
             response.setHeader("X-Rate-Limit-Retry-After-Seconds", String.valueOf(getRetryAfterSeconds(clientIp)));
             return false;
         }
-
         response.setStatus(200);
         response.setHeader("X-Rate-Limit-Remaining", String.valueOf(getNumberOfRemainingRequests(clientIp)));
         return true;
     }
-
 
     private boolean isAllowed(String clientIp) {
         if ("moving".equalsIgnoreCase(rateLimitAlgo)) {
@@ -68,23 +65,18 @@ public class RateLimit implements HandlerInterceptor {
         while (!timestamps.isEmpty() && currTime - timestamps.getFirst() > timeWindow) {
             timestamps.removeFirst();
         }
-
         timestamps.addLast(currTime);
         if (timestamps.size() <= maxRequests) {
             return true;
         }
-
         return false;
     }
-
-
 
     private synchronized boolean isAllowedFixed(String clientIp){
         long currTime = System.currentTimeMillis();
         long minMills = 60000;
         requestMap.putIfAbsent(clientIp, new FixedInterval(currTime,0));
         FixedInterval fixedInterval = (FixedInterval) requestMap.get(clientIp);
-
         if(currTime - fixedInterval.startTime >= minMills){
             fixedInterval.requestCount = 1;
             fixedInterval.startTime = currTime;
@@ -112,51 +104,29 @@ public class RateLimit implements HandlerInterceptor {
 
     private int calculateRemainingFixed(String clientIp) {
         int maxRequests = Integer.parseInt(rateLimitRPM);
-
         if (!requestMap.containsKey(clientIp)) {
             return maxRequests;
         }
-
         FixedInterval fixedInterval = (FixedInterval) requestMap.get(clientIp);
         long currTime = System.currentTimeMillis();
         long windowDuration = 60000;
-
         if (currTime - fixedInterval.startTime >= windowDuration) {
             return maxRequests;
         }
-
         return Math.max(0, maxRequests - fixedInterval.requestCount);
     }
 
-
-
-
     private int calculateRemainingSliding(String clientIp) {
         long currTime = System.currentTimeMillis();
-        long timeWindow = 60000; // 1-minute window
+        long timeWindow = 60000;
         int maxRequests = Integer.parseInt(rateLimitRPM);
-
-        // If the client IP does not exist, they have not made any requests
         if (!requestMap.containsKey(clientIp)) {
             return maxRequests;
         }
-
-        // Retrieve the existing list of timestamps
         LinkedList<Long> timestamps = (LinkedList<Long>) requestMap.get(clientIp);
-
-        // Remove expired timestamps (but don't clear the list entirely)
-        // timestamps.removeIf(timestamp -> currTime - timestamp > timeWindow);
-
-        // Calculate the number of used requests
         int usedRequests = timestamps.size();
-
-        // Return the number of remaining requests
         return Math.max(0, maxRequests - usedRequests);
     }
-
-
-
-
 
     private long getRetryAfterSeconds(String clientIp) {
         if ("moving".equalsIgnoreCase(rateLimitAlgo)) {
@@ -172,20 +142,19 @@ public class RateLimit implements HandlerInterceptor {
         long currTime = System.currentTimeMillis();
         long timeWindow = 60000;
         int maxRequests = Integer.parseInt(rateLimitRPM);
-
         if (!requestMap.containsKey(clientIp)) {
             return 0;
         }
-
         LinkedList<Long> timestamps = (LinkedList<Long>) requestMap.get(clientIp);
-
+        timestamps.removeIf(timestamp -> currTime - timestamp > timeWindow);
         if (timestamps.size() >= maxRequests) {
             long timeLeftInWindow = timeWindow - (currTime - timestamps.getFirst());
-            return Math.max(0, timeLeftInWindow / 60000); // Convert to seconds
+            return Math.max(0, timeLeftInWindow / 1000); // Convert milliseconds to seconds
         }
 
         return 0;
     }
+
 
 
     private long getRetryAfterFixed(String clientIp) {
@@ -193,9 +162,7 @@ public class RateLimit implements HandlerInterceptor {
         if (fixedInterval == null) return 0;
         long currTime = System.currentTimeMillis();
         long minMills = 60000;
-
         return Math.max(0,(fixedInterval.startTime + minMills - currTime)/1000);
-
     }
 
     private static class FixedInterval{
@@ -205,25 +172,6 @@ public class RateLimit implements HandlerInterceptor {
         public FixedInterval(long startTime, int requestCount){
             this.startTime = startTime;
             this.requestCount = requestCount;
-        }
-    }
-    @Configuration
-    public class RequestInterceptorConfig implements WebMvcConfigurer {
-
-        @Value("${rate-limit.enabled}")
-        private String rateLimitEnabled;
-
-        private final RateLimit rateLimit;
-
-        public RequestInterceptorConfig(RateLimit rateLimit) {
-            this.rateLimit = rateLimit;
-        }
-
-        @Override
-        public void addInterceptors(InterceptorRegistry registry) {
-            if (Objects.equals(rateLimitEnabled, "true")) {
-                registry.addInterceptor(rateLimit);
-            }
         }
     }
 

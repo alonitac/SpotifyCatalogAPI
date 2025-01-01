@@ -17,7 +17,6 @@ public class RateLimitITest {
 
     @Autowired
     private TestRestTemplate restTemplate;
-
     private static final String API_ENDPOINT = "/";
     private static final String INTERNAL_ENDPOINT = "/internal";
     private static final String XRateLimitRetryAfterSecondsHeader = "X-Rate-Limit-Retry-After-Seconds";
@@ -54,6 +53,5 @@ public class RateLimitITest {
             assertFalse(response.getHeaders().containsKey(XRateLimitRemaining));
         }
     }
-
 
 }
