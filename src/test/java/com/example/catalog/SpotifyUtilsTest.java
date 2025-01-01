@@ -1,14 +1,13 @@
 package com.example.catalog;
 
+import com.example.catalog.utils.SpotifyUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import static com.example.catalog.utils.SpotifyUtils.isValidId;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static com.example.catalog.utils.SpotifyUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 
-@Disabled("Should be enabled for Junit exercises")
 public class SpotifyUtilsTest {
 
     @Test
@@ -23,9 +22,32 @@ public class SpotifyUtilsTest {
         assertFalse(isValidId(null)); // null ID
         assertFalse(isValidId("")); // empty ID
         assertFalse(isValidId("shortID")); // too short ID (less than 15 characters)
-        assertFalse(isValidId("thisIDiswaytoolongtobevalid")); // too long ID (more than 30 characters)
+        assertFalse(isValidId("AAAAAAAthisIDiswaytoolongtobevalid")); // too long ID (more than 30 characters)
         assertFalse(isValidId("!@#$$%^&*()_+")); // invalid characters
         assertFalse(isValidId("1234567890abcdefGHIJKLMNO!@#")); // includes invalid characters
+    }
+
+    @Test
+    public void testInValidURI() {
+        assertFalse(isValidURI(null));; // URI
+        assertFalse(isValidURI("")); // empty URI
+        assertFalse(isValidURI("spotify:playlist:1234")); // ID to short
+    }
+
+    @Test
+    public void testValidURI() {
+        assertTrue(isValidURI("spotify:track:1234567890abcdef1234"));; // True
+        assertTrue(isValidURI("spotify:album:abcdefghij1234567890")); // True
+
+    }
+
+    @Test
+    public void InValidGetSpotifyClientParams() {
+        assertThrows(IllegalArgumentException.class,() ->getSpotifyClient(null, "11554592"),"Illegal client id - null");
+        assertThrows(IllegalArgumentException.class,() ->getSpotifyClient("", "11554592"),"Illegal client id - empty");
+        assertThrows(IllegalArgumentException.class,() ->getSpotifyClient("ClientId1123", null),"Illegal client secret - null");
+        assertThrows(IllegalArgumentException.class,() ->getSpotifyClient("ClientId1123", ""),"Illegal client secret - empty");
+
     }
 
 }
