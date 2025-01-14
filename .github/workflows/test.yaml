@@ -1,7 +1,7 @@
 name: SpotifyCatalogAPI tests
 
 on:
-  push:
+  pull_requests:
     branches:
       - main
 
