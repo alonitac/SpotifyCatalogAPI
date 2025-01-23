@@ -2,8 +2,6 @@ name: SpotifyCatalogAPI tests
 
 on:
   pull_request:
-    branches:
-      - main  # Trigger the workflow on PRs to the main branch
 
 jobs:
   Build:
