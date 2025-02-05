@@ -1,0 +1,79 @@
+[
+  {
+    "duration_ms": 200040,
+    "id": "0VjIjW4GlUZAMYd2vXMi3b",
+    "name": "Blinding Lights",
+    "popularity": 87,
+    "uri": "spotify:track:0VjIjW4GlUZAMYd2vXMi3b",
+    "album": {
+      "id": "4yP0hdKOZPNshxUOjY0cZj",
+      "name": "After Hours",
+      "uri": "spotify:album:4yP0hdKOZPNshxUOjY0cZj",
+      "release_date": "2020-03-20",
+      "total_tracks": 14,
+      "images": [
+        {
+          "width": 640,
+          "height": 640,
+          "url": null
+        },
+        {
+          "url": "ab67616d00001e028863bc11d2aa12b54f5aeb36.jpeg",
+          "width": 300,
+          "height": 300
+        },
+        {
+          "url": "ab67616d000048518863bc11d2aa12b54f5aeb36.jpeg",
+          "width": 64,
+          "height": 64
+        }
+      ]
+    },
+    "artists": [
+      {
+        "id": "1Xyo4u8uXC1ZmMpatF05PJ",
+        "name": "The Weeknd",
+        "uri": "spotify:artist:1Xyo4u8uXC1ZmMpatF05PJ"
+      }
+    ]
+  },
+  {
+    "duration_ms": 233712,
+    "id": "7qiZfU4dY1lWllzX7mPBI3",
+    "name": "Shape of You",
+    "popularity": 86,
+    "uri": "spotify:track:7qiZfU4dY1lWllzX7mPBI3",
+    "album": {
+      "id": "3T4tUhGYeRNVUGevb0wThu",
+      "name": "\u00f7 (Deluxe)",
+      "uri": "spotify:album:3T4tUhGYeRNVUGevb0wThu",
+      "release_date": "2017-03-03",
+      "total_tracks": 16,
+      "images": [
+        {
+          "width": 640,
+          "height": 640,
+          "url": null
+        },
+        {
+          "url": "ab67616d00001e02ba5db46f4b838ef6027e6f96.jpeg",
+          "width": 300,
+          "height": 300
+        },
+        {
+          "url": "ab67616d00004851ba5db46f4b838ef6027e6f96.jpeg",
+          "width": 64,
+          "height": 64
+        }
+      ]
+    },
+    "artists": [
+      {
+        "id": "6eUKZXaKkcviH0Ku9w2n3V",
+        "name": "Ed Sheeran",
+        "uri": "spotify:artist:6eUKZXaKkcviH0Ku9w2n3V"
+      }
+    ]
+  }
+
+]
