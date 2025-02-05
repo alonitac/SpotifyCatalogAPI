@@ -30,10 +30,10 @@ class DataSourceSelectorTest {
 
     @Test
     void testCorrectDataSourceSelected() {
-        System.out.println(dataSourceType);
-        //DataSourceService selectedService = dataSourceSelector.dataSourceService(jsonService, spotifyService);
 
-      /*  if ("json".equalsIgnoreCase(dataSourceType)) {
+        DataSourceService selectedService = dataSourceSelector.dataSourceService(jsonService, spotifyService);
+
+        if ("json".equalsIgnoreCase(dataSourceType)) {
             assertEquals(jsonService, selectedService);
         } else if ("spotify_api".equalsIgnoreCase(dataSourceType)) {
             assertEquals(spotifyService, selectedService);
@@ -41,6 +41,6 @@ class DataSourceSelectorTest {
             assertThrows(IllegalArgumentException.class,
                     () -> dataSourceSelector.dataSourceService(jsonService, spotifyService));
         }
-    }*/
+
     }
 }

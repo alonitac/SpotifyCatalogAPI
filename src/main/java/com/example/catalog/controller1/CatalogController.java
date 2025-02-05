@@ -1,4 +1,4 @@
-package com.example.catalog.controller;
+package com.example.catalog.controller1;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
