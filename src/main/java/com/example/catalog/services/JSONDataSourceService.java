@@ -19,6 +19,7 @@ public class JSONDataSourceService implements DataSourceService {
     private static final String ARTISTS_FILE_PATH = "dataTest/popular_artists_test.json";
     private static final String ALBUMS_FILE_PATH = "dataTest/albums_test.json";
     private static final String SONGS_FILE_PATH = "dataTest/popular_songs_test.json";
+
     //private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -183,7 +184,7 @@ public class JSONDataSourceService implements DataSourceService {
 
     @Override
     public Artist updateArtist(String id, Artist artist) throws IOException {//13
-
+      System.out.println("hello json ");
         List<Artist> artists = getAllArtists();  // Retrieve all artists
 
 

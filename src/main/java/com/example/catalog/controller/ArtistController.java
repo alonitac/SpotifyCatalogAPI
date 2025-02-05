@@ -1,7 +1,10 @@
 package com.example.catalog.controller;
 
 import com.example.catalog.model.Artist;
+import com.example.catalog.services.DataSourceSelector;
 import com.example.catalog.services.DataSourceService;
+import com.example.catalog.services.JSONDataSourceService;
+import com.example.catalog.services.SpotifyAPIDataSources;
 import com.example.catalog.utils.SpotifyUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,11 +18,12 @@ import java.util.List;
 @RequestMapping("/artists")
 public class ArtistController {
 
+
     private final DataSourceService dataSourceService;
 
     @Autowired
     public ArtistController(DataSourceService dataSourceService) {
-        this.dataSourceService = dataSourceService;
+        this.dataSourceService = dataSourceService; // Spring injects the correct service
     }
 
     @GetMapping("/{id}") // 1

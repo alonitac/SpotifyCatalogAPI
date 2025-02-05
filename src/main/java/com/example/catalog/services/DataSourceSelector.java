@@ -8,11 +8,12 @@ import org.springframework.context.annotation.Configuration;
 public class DataSourceSelector {
 
     @Value("${datasource.type:json}") // Default: JSON
-    private String dataSourceType;
+    private String dataSourceType="spotify_api";
 
     @Bean
     public DataSourceService dataSourceService(JSONDataSourceService jsonService,
                                                SpotifyAPIDataSources spotifyService) {
+
         if ("json".equalsIgnoreCase(dataSourceType)) {
             return jsonService;
         } else if ("spotify_api".equalsIgnoreCase(dataSourceType)) {

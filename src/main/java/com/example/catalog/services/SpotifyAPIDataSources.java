@@ -1,16 +1,18 @@
 package com.example.catalog.services;
 
-import com.example.catalog.model.*;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.example.catalog.model.Album;
+import com.example.catalog.model.Artist;
+import com.example.catalog.model.Song;
+import com.example.catalog.model.Track;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,154 +29,158 @@ public class SpotifyAPIDataSources implements DataSourceService {
 
     @Override
     public Artist getArtistById(String id) throws IOException {
-        String url = "https://api.spotify.com/v1/artists/" + id;
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
-
-        ResponseEntity<JsonNode> response = restTemplate.getForEntity(builder.toUriString(),
-                JsonNode.class, createHeaders());
-
-        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-            JsonNode artistNode = response.getBody();
-            return parseArtist(artistNode);
-        } else {
-            throw new IOException("Failed to fetch artist with ID: " + id);
+        try {
+            ResponseEntity<Artist> response = restTemplate.exchange(
+                    "https://api.spotify.com/v1/artists/" + id, HttpMethod.GET, new HttpEntity<>(createHeaders()), Artist.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();
+            } else {
+                throw new IOException("Artist not found (Status Code: " + response.getStatusCode() + ")");
+            }
+        } catch (Exception e) {
+            throw new IOException("Error fetching artist: " + e.getMessage());
         }
     }
 
     @Override
     public List<Artist> getAllArtists() throws IOException {
-        String url = "https://api.spotify.com/v1/artists";
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
-
-        ResponseEntity<JsonNode> response = restTemplate.getForEntity(builder.toUriString(),
-                JsonNode.class, createHeaders());
-
-        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-            List<Artist> artists = new ArrayList<>();
-            for (JsonNode artistNode : response.getBody()) {
-                artists.add(parseArtist(artistNode));
+        try {
+            ResponseEntity<Artist[]> response = restTemplate.exchange(
+                    "https://api.spotify.com/v1/artists", HttpMethod.GET, new HttpEntity<>(createHeaders()), Artist[].class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return List.of(response.getBody());
+            } else {
+                throw new IOException("Error fetching artists (Status Code: " + response.getStatusCode() + ")");
             }
-            return artists;
-        } else {
-            throw new IOException("Failed to fetch artists.");
+        } catch (Exception e) {
+            throw new IOException("Error fetching all artists: " + e.getMessage());
         }
     }
 
-    // For methods that Spotify API does not support (add/update/delete), we throw 404 or 400 errors.
+
+
     @Override
-    public Artist addArtist(Artist artist) throws IOException {
-        // Spotify doesn't allow adding artists via the API.
-        throw new IOException("Cannot add artist via Spotify API. This operation is not supported (404 Not Found).");
-
-
+    public Artist addArtist(Artist artist)throws IOException   {
+         return null;
     }
 
     @Override
     public Artist updateArtist(String id, Artist artist) throws IOException {
-        // Spotify doesn't allow updating artists via the API.
-        throw new IOException("Cannot update artist via Spotify API. This operation is not supported (404 Not Found).");
 
+        return null;
     }
 
     @Override
     public boolean deleteArtist(String id) throws IOException {
-        // Spotify doesn't allow deleting artists via the API.
-        throw new IOException("Cannot delete artist via Spotify API. This operation is not supported (404 Not Found).");
+        return false;
     }
 
     @Override
     public List<Album> getAllAlbums() throws IOException {
-        return List.of();
+        try {
+            ResponseEntity<Album[]> response = restTemplate.exchange(
+                    "https://api.spotify.com/v1/me/albums", HttpMethod.GET, new HttpEntity<>(createHeaders()), Album[].class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return List.of(response.getBody());
+            } else {
+                throw new IOException("Error fetching albums (Status Code: " + response.getStatusCode() + ")");
+            }
+        } catch (Exception e) {
+            throw new IOException("Error fetching all albums: " + e.getMessage());
+        }
     }
 
     @Override
     public Album getAlbumById(String id) throws IOException {
-        return null;
+        try {
+            ResponseEntity<Album> response = restTemplate.exchange(
+                    "https://api.spotify.com/v1/albums/" + id, HttpMethod.GET, new HttpEntity<>(createHeaders()), Album.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();
+            } else {
+                throw new IOException("Album not found (Status Code: " + response.getStatusCode() + ")");
+            }
+        } catch (Exception e) {
+            throw new IOException("Error fetching album: " + e.getMessage());
+        }
     }
+
+
 
     @Override
     public Album createAlbum(Album album) throws IOException {
-        return null;
+        throw new IOException("Cannot create album via Spotify API. This operation is not supported.");
     }
 
     @Override
     public Album updateAlbum(String id, Album updatedAlbum) throws IOException {
-        return null;
+        throw new IOException("Cannot update album via Spotify API. This operation is not supported.");
     }
 
     @Override
     public boolean deleteAlbum(String id) throws IOException {
-        return false;
+        throw new IOException("Cannot delete album via Spotify API. This operation is not supported.");
     }
 
     @Override
     public List<Track> getTracks(String albumId) throws IOException {
-        return List.of();
+        try {
+            ResponseEntity<Track[]> response = restTemplate.exchange(
+                    "https://api.spotify.com/v1/albums/" + albumId + "/tracks", HttpMethod.GET, new HttpEntity<>(createHeaders()), Track[].class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return List.of(response.getBody());
+            } else {
+                throw new IOException("Error fetching tracks (Status Code: " + response.getStatusCode() + ")");
+            }
+        } catch (Exception e) {
+            throw new IOException("Error fetching tracks for album: " + e.getMessage());
+        }
     }
+
 
     @Override
     public Album addTrack(String albumId, Track track) throws IOException {
-        return null;
+        throw new IOException("Cannot add track to album via Spotify API. This operation is not supported.");
     }
 
     @Override
     public Track updateTrack(String albumId, String trackId, Track updatedTrack) throws IOException {
-        return null;
+        throw new IOException("Cannot update track via Spotify API. This operation is not supported.");
     }
 
     @Override
     public boolean deleteTrack(String albumId, String trackId) throws IOException {
-        return false;
+        throw new IOException("Cannot delete track via Spotify API. This operation is not supported.");
     }
 
     @Override
     public List<Song> getAllSongs() throws IOException {
-        return List.of();
+        throw new IOException("Cannot fetch all songs via Spotify API. This operation is not supported.");
     }
 
     @Override
     public Song getSongById(String id) throws IOException {
-        return null;
+        throw new IOException("Cannot fetch song by ID via Spotify API. This operation is not supported.");
     }
+
+
 
     @Override
     public Song createSong(Song song) throws IOException {
-        return null;
+        throw new IOException("Cannot create song via Spotify API. This operation is not supported.");
     }
 
     @Override
     public void updateSong(String id, Song song) throws IOException {
-      return ;
+        throw new IOException("Cannot update song via Spotify API. This operation is not supported.");
     }
 
     @Override
     public boolean deleteSong(String id) throws IOException {
-        return false;
+        throw new IOException("Cannot delete song via Spotify API. This operation is not supported.");
     }
 
-    private Artist parseArtist(JsonNode artistNode) {
-        Artist artist = new Artist();
-        artist.setId(artistNode.get("id").asText());
-        artist.setName(artistNode.get("name").asText());
-        artist.setFollowers(artistNode.get("followers").get("total").asInt());
-        artist.setPopularity(artistNode.get("popularity").asInt());
-        artist.setUri(artistNode.get("uri").asText());
-
-        List<String> genres = new ArrayList<>();
-        artistNode.get("genres").forEach(genreNode -> genres.add(genreNode.asText()));
-        artist.setGenres(genres);
-
-        List<Image> images = new ArrayList<>();
-        artistNode.get("images").forEach(imageNode -> {
-            Image image = new Image();
-            image.setUrl(imageNode.get("url").asText());
-            images.add(image);
-        });
-        artist.setImages(images);
-
-        return artist;
-    }
-
+    // Helper method to create headers with the Bearer token
     private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + spotifyApiToken);
