@@ -5,10 +5,7 @@ import com.example.catalog.model.Artist;
 import com.example.catalog.model.Song;
 import com.example.catalog.model.Track;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,6 +23,8 @@ public class SpotifyAPIDataSources implements DataSourceService {
     public SpotifyAPIDataSources(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
+    
+
 
     @Override
     public Artist getArtistById(String id) throws IOException {
@@ -181,9 +180,13 @@ public class SpotifyAPIDataSources implements DataSourceService {
     }
 
     // Helper method to create headers with the Bearer token
-    private HttpHeaders createHeaders() {
+    private HttpEntity<Object> createHeaders() {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + spotifyApiToken);
-        return headers;
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new HttpEntity<>(headers);
+        
+       
+        
     }
 }

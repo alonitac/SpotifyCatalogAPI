@@ -20,29 +20,32 @@ public class SpotifyAuthService {
     @Value("${spotify.api.url}")
     private String spotifyApiUrl;
 
-    private final RestTemplate restTemplate;
-
-    public SpotifyAuthService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    private final RestTemplate restTemplate = new RestTemplate();
+    private String accessToken;
 
     public String getAccessToken() {
-        String authHeader = "Basic " + Base64.getEncoder()
-                .encodeToString((clientId + ":" + clientSecret).getBytes());
+        if (accessToken == null) {
+            refreshToken();
+        }
+        return accessToken;
+    }
+
+    private void refreshToken() {
+        String auth = clientId + ":" + clientSecret;
+        String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", authHeader);
+        headers.set("Authorization", "Basic " + encodedAuth);
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
         HttpEntity<String> request = new HttpEntity<>("grant_type=client_credentials", headers);
 
-        ResponseEntity<Map> response = restTemplate.exchange(
+        ResponseEntity<Map> response = restTemplate.postForEntity(
                 "https://accounts.spotify.com/api/token",
-                HttpMethod.POST,
                 request,
                 Map.class
         );
 
-        return response.getBody() != null ? response.getBody().get("access_token").toString() : null;
+        accessToken = (String) response.getBody().get("access_token");
     }
 }
