@@ -21,7 +21,8 @@ jobs:
 
       - name: Run Tests
         run: |
-          mvn test -q
+          mvn clean test -q
+          ls
 
       - name: Load test report history from gh-pages page
         uses: actions/checkout@v3
