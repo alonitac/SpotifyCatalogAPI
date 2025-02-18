@@ -23,6 +23,7 @@ jobs:
         run: |
           mvn clean test -q
 
+
       - name: Load test report history from gh-pages page
         uses: actions/checkout@v4
         if: always()
