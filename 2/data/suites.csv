@@ -1,0 +1,7 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Tue Feb 18 09:14:20 GMT 2025","Tue Feb 18 09:14:20 GMT 2025","3","","after adding 2 elements","","com.example.catalog.LRUCacheTest$WhenInstantiated$AfterAdding2Elements","containsAddedElements","cache contains the added elements",""
+"skipped","Tue Feb 18 09:14:23 GMT 2025","Tue Feb 18 09:14:23 GMT 2025","0","","com.example.catalog.SpotifyUtilsTest","","com.example.catalog.SpotifyUtilsTest","testValidId","testValidId()",""
+"passed","Tue Feb 18 09:14:22 GMT 2025","Tue Feb 18 09:14:23 GMT 2025","659","","com.example.catalog.HelloControllerTest","","com.example.catalog.HelloControllerTest","testHome","testHome()",""
+"skipped","Tue Feb 18 09:14:23 GMT 2025","Tue Feb 18 09:14:23 GMT 2025","0","","com.example.catalog.SpotifyUtilsTest","","com.example.catalog.SpotifyUtilsTest","testInvalidId","testInvalidId()",""
+"passed","Tue Feb 18 09:14:20 GMT 2025","Tue Feb 18 09:14:20 GMT 2025","2","","when instantiated with capacity 3","","com.example.catalog.LRUCacheTest$WhenInstantiated","isEmpty","cache is initially empty",""
+"passed","Tue Feb 18 09:14:20 GMT 2025","Tue Feb 18 09:14:20 GMT 2025","17","","when instantiated with capacity 3","","com.example.catalog.LRUCacheTest$WhenInstantiated","throwsExceptionWhenGettingNullKey","throws NullPointerException when getting a null key",""
