@@ -49,6 +49,12 @@
 			<optional>true</optional>  <!-- wouldn't be inherited -->
 		</dependency>
 
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-junit5</artifactId>
+			<version>2.29.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
